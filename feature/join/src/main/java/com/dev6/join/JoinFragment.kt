@@ -40,7 +40,7 @@ class JoinFragment : BindingFragment<FragmentJoinBinding>(R.layout.fragment_join
     private fun handleEvent(event: Event) = when (event) {
         is Event.JoinEvent ->{
             when(event.uiState){
-                is UiState.Loding->   {
+                is UiState.Loding->      {
 
                 }
                 is UiState.Success->{
