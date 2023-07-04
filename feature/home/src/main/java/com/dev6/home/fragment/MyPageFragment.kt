@@ -42,6 +42,7 @@ class MyPageFragment() : BindingFragment<FragmentMyPageBinding>(R.layout.fragmen
         repeatOnStarted {
             myPageViewModel.getMyData()
         }
+
     }
 
     override fun initListener() {
@@ -59,25 +60,6 @@ class MyPageFragment() : BindingFragment<FragmentMyPageBinding>(R.layout.fragmen
             }
         }.attach()
 
-
-        binding.tableLayout.addOnTabSelectedListener(object : OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> {
-                        repeatOnStartedFragment {
-                         //   myPageViewModel.getChaalengeListWithUid(0, 5)
-                        }
-                    }
-                    1 -> {
-                        repeatOnStartedFragment {
-                         //   myPageViewModel.getPostListWithUid(0, 5)
-                        }
-                    }
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
         binding.appbarLayout.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
             override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
                 if(state == State.COLLAPSED){

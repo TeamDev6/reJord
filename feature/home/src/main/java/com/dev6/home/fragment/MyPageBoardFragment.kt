@@ -26,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -44,7 +45,6 @@ class MyPageBoardFragment :
         //recyclerView init
         myPageViewModel.clearBoardCount()
         MyBoardRc = binding.MyBoardRc
-       // count = myPageViewModel.myBoardCount
 
         //잘되는지 확인필요
         MyBoardRc.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
@@ -90,8 +90,8 @@ class MyPageBoardFragment :
     override fun afterViewCreated() {
         super.afterViewCreated()
         repeatOnStarted {
-            myPageViewModel.myPageFlow.collect{ event->
-                if(event is MyPageViewModel.MyPageEvent.GetPostListWithUid ){
+            myPageViewModel.myPageBoardFlow.collect{ event->
+                if(event is MyPageViewModel.BoardEvent.GetPostListWithUid ){
                     when (event.uistate) {
                         is UiState.Success -> {
                             Log.v("GetPostListWithUid test", event.uistate.data.toString())

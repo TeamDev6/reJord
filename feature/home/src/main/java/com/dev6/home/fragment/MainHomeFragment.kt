@@ -29,11 +29,8 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
 @AndroidEntryPoint
@@ -186,7 +183,7 @@ class MainHomeFragment : BindingFragment<FragmentHomeMainBinding>(R.layout.fragm
                                             5
                                         )
                                     )
-                                }.join()
+                                }.cancelAndJoin()
                         }
                     }
                     is UiState.Loding -> {
@@ -213,7 +210,7 @@ class MainHomeFragment : BindingFragment<FragmentHomeMainBinding>(R.layout.fragm
                                     challengeViewModel.getChallengeList(
                                         ChallengeReadReq(0, LocalDateTime.now().toString(), 5)
                                     )
-                                }.join()
+                                }.cancelAndJoin()
                             }
                     }
                     is UiState.Loding -> {

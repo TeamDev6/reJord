@@ -21,6 +21,9 @@ class JoinRepositoryImple @Inject constructor(
 
     override suspend fun nicknameExistCheck(userId: String): NicknameExistCheckRes
     = joinRemoteSource.nicknameExistCheck(userId).toMapper()
+
+    override suspend fun signOut(passWord: String): String
+    = joinRemoteSource.signOut(passWord)
 }
 
 

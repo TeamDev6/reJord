@@ -14,11 +14,14 @@ interface JoinAPI {
     suspend fun signUp(@Body joinReqDTO: JoinReqDTO): Response<JoinResDTO>
 
     @Headers("Content-Type: application/json")
+    @DELETE("/v1/users")
+    suspend fun signOut(@Body password: String): Response<String>
+
+    @Headers("Content-Type: application/json")
     @PATCH("/v1/users/{uid}/nickname")
     suspend fun joinUpdate(@Body nicknameReqDTO: NicknameReqDTO , @Path("uid") uid : String): Response<NicknameUpdateResDTO>
 
     @Headers("Content-Type: application/json")
     @GET("/v1/users/{userId}/duplication")
     suspend fun nicknameExistCheck(@Path("userId") userId : String): Response<NicknameExistCheckResDTO>
-
 }

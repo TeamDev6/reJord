@@ -12,6 +12,7 @@ import com.dev6.domain.model.join.nickName.NicknameUpdateRes
 import com.dev6.domain.usecase.join.JoinUpdateUseCase
 import com.dev6.domain.usecase.join.JoinUseCase
 import com.dev6.domain.usecase.join.NicknameExistCheckUseCase
+import com.dev6.domain.usecase.join.SignOutUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserInfoViewModel @Inject constructor(
     private val userDataUpdateUseCase: JoinUpdateUseCase,
-    private val userNicknameExistCheckUseCase: NicknameExistCheckUseCase
+    private val userNicknameExistCheckUseCase: NicknameExistCheckUseCase,
+    private val signOutUseCase : SignOutUseCase
 ) : ViewModel() {
 
     private val _eventFlow = MutableEventFlow<Event>()
@@ -40,6 +42,14 @@ class UserInfoViewModel @Inject constructor(
         }
     }
 
+    fun signOut(passWord : String){
+        viewModelScope.launch{
+            signOutUseCase(passWord).collect{ uiState ->
+                event(Event.signOut(uiState))
+            }
+        }
+    }
+
 
     fun userUserIdExistCheck(nickname: String) {
         viewModelScope.launch{
@@ -52,6 +62,7 @@ class UserInfoViewModel @Inject constructor(
     sealed class Event {
         data class userDataUpdateUiEvent(val uiState: UiState<NicknameUpdateRes>) : Event()
         data class userUserIdExistUiEvent(val uiState: UiState<NicknameExistCheckRes>) : Event()
+        data class signOut(val uiState : UiState<String>): Event()
     }
 }
 

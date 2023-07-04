@@ -45,6 +45,12 @@ class MyPageViewModel @Inject constructor(
 ): ViewModel(){
 
 
+    private val _myPageChallengeFlow = MutableEventFlow<ChallEvent>()
+    val myPageChallengeFlow = _myPageChallengeFlow.asEventFlow()
+
+    private val _myPageBoardFlow = MutableEventFlow<BoardEvent>()
+    val myPageBoardFlow = _myPageBoardFlow.asEventFlow()
+
     private val _myPageFlow = MutableEventFlow<MyPageEvent>()
     val myPageFlow = _myPageFlow.asEventFlow()
 
@@ -62,6 +68,18 @@ class MyPageViewModel @Inject constructor(
     private fun Event(event : MyPageEvent){
         viewModelScope.launch {
             _myPageFlow.emit(event)
+        }
+    }
+
+    private fun MyBoardEvent(event : BoardEvent){
+        viewModelScope.launch {
+            _myPageBoardFlow.emit(event)
+        }
+    }
+
+    private fun MyChallEvent(event : ChallEvent){
+        viewModelScope.launch {
+            _myPageChallengeFlow.emit(event)
         }
     }
 
@@ -102,7 +120,7 @@ class MyPageViewModel @Inject constructor(
     suspend fun getPostListWithUid(page : Int, size : Int){
         viewModelScope.launch(Dispatchers.IO) {
             postGetListWithUidUserCase.getPostListWithUid(page, size).collect{
-                Event(MyPageEvent.GetPostListWithUid(it))
+                MyBoardEvent(BoardEvent.GetPostListWithUid(it))
             }
         }
     }
@@ -110,7 +128,7 @@ class MyPageViewModel @Inject constructor(
      suspend fun getChaalengeListWithUid(page : Int, size : Int){
         viewModelScope.launch(Dispatchers.IO) {
             challengeListWIthUidUseCase.getChallengeListWithUid(page, size).collect{
-                Event(MyPageEvent.GetChallengeListWithUid(it))
+                MyChallEvent(ChallEvent.GetChallengeListWithUid(it))
             }
         }
     }
@@ -170,13 +188,18 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }
-
+    //event 는 한 액티비티나 한 프래그먼트에서 같이 쓰이는 애들끼리 묶는게 좋다
     sealed class MyPageEvent{
-        data class GetPostListWithUid(val uistate : UiState<PostReadRes>) : MyPageEvent()
-        data class GetChallengeListWithUid(val uistate: UiState<ChallengeRes>) : MyPageEvent()
         data class GetMyData(val uiState : UiState<MyData>) : MyPageEvent()
         data class GetMyFootPrintList(val uiState : UiState<FootPrintRes>) : MyPageEvent()
         data class GetMyBadgeInfoList(val uiState : UiState<List<BadgeByUidResult>>) : MyPageEvent()
+    }
+
+    sealed class ChallEvent{
+        data class GetChallengeListWithUid(val uistate: UiState<ChallengeRes>) : ChallEvent()
+    }
+    sealed class BoardEvent{
+        data class GetPostListWithUid(val uistate : UiState<PostReadRes>) : BoardEvent()
     }
 
     sealed class MyEditEvent{

@@ -55,6 +55,10 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding>(R.layout.fragm
             myPageViewModel.postmypageBackEvent(true)
             findNavController().popBackStack()
         }
+
+        binding.WithdrawalBt.setOnClickListener {
+            userInfoViewModel.signOut("")
+        }
     }
 
     override fun afterViewCreated() {
@@ -68,7 +72,6 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding>(R.layout.fragm
 
                 }
                 is UiState.Success -> {
-                    Log.v("유저인포","업데이트성공")
                     myPageViewModel.postmypageBackEvent(true)
                     findNavController().popBackStack()
                 }
@@ -87,6 +90,19 @@ class UserInfoFragment : BindingFragment<FragmentUserInfoBinding>(R.layout.fragm
                 }
                 is UiState.Error -> {
                     Log.v("유저인포",event.uiState.error.toString())
+                }
+            }
+        }
+        is UserInfoViewModel.Event.signOut -> {
+            when (event.uiState) {
+                is UiState.Loding -> {
+
+                }
+                is UiState.Success -> {
+                    Log.v("회원탈퇴","탈퇴성공")
+                }
+                is UiState.Error -> {
+                    Log.v("탈퇴에러",event.uiState.error.toString())
                 }
             }
         }

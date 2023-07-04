@@ -36,7 +36,6 @@ class MyPageChallengeFragment :
         super.initView()
         myPageViewModel.clearChallCount()
         MychallengeRc = binding.MychallengeRc
-        count = myPageViewModel.myChallCount
 
         //확인필요
         MychallengeRc.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
@@ -77,8 +76,8 @@ class MyPageChallengeFragment :
     override fun afterViewCreated() {
         super.afterViewCreated()
         repeatOnStartedFragment {
-            myPageViewModel.myPageFlow.collect{ event ->
-                if(event is MyPageViewModel.MyPageEvent.GetChallengeListWithUid){
+            myPageViewModel.myPageChallengeFlow.collect{ event ->
+                if(event is MyPageViewModel.ChallEvent.GetChallengeListWithUid){
                     when (event.uistate) {
                         is UiState.Success -> {
                             mutableList.addAll(index, event.uistate.data.content)

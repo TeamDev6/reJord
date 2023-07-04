@@ -13,6 +13,7 @@ interface JoinRemoteDataSource {
     suspend fun signUp(joinReqDTO: JoinReqDTO): JoinResDTO
     suspend fun joinUpdate(nicknameReqDTO: NicknameReqDTO , userUid: String) : NicknameUpdateResDTO
     suspend fun nicknameExistCheck(userId : String) : NicknameExistCheckResDTO
+    suspend fun signOut(passWord : String) : String
 }
 
 class JoinRemoteDataSourceImpl @Inject constructor(
@@ -29,5 +30,9 @@ class JoinRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun nicknameExistCheck(userId: String): NicknameExistCheckResDTO {
         return joinService.nicknameExistCheck(userId).executeNetworkHandling()
+    }
+
+    override suspend fun signOut(passWord: String): String {
+        return joinService.signOut(passWord).executeNetworkHandling()
     }
 }

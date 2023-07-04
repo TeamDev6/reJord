@@ -4,17 +4,19 @@ import com.dev6.common.uistate.UiState
 import com.dev6.domain.model.join.JoinReq
 import com.dev6.domain.repository.JoinRepository
 import com.dev6.domain.usecase.JoinReposBaseUseCase
+import com.dev6.domain.usecase.SignOutBaseUseCase
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 
-class JoinUseCase @Inject constructor(
+class SignOutUseCase @Inject constructor(
     private val joinRepository: JoinRepository
-): JoinReposBaseUseCase {
-    override suspend fun invoke(joinReq: JoinReq) = flow {
+): SignOutBaseUseCase {
+    override suspend fun invoke(params: String) = flow {
         emit(UiState.Loding)
         runCatching {
-            joinRepository.signUp(joinReq)
+            joinRepository.signOut(params)
         }.onSuccess { result ->
             emit(UiState.Success(result))
         }.onFailure {

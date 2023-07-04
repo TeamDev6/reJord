@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 
 typealias LoginReposBaseUseCase = BaseUseCase<LoginReq, Flow<UiState<LoginRes>>>
 typealias JoinReposBaseUseCase = BaseUseCase<JoinReq, Flow<UiState<JoinRes>>>
+typealias SignOutBaseUseCase = BaseUseCase<String, Flow<UiState<String>>>
 typealias NicknameExistCheckBaseUseCase = BaseUseCase<String, Flow<UiState<NicknameExistCheckRes>>>
 typealias JoinUpdateReposBaseUseCase = BaseUseCase<Pair<NicknameReq,String>, Flow<UiState<NicknameUpdateRes>>>
 typealias PostGetListReposBaseUseCase = BaseUseCase<PostReadReq, Flow<UiState<PostReadRes>>>

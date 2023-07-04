@@ -9,4 +9,5 @@ interface JoinRepository {
     suspend fun signUp(joinReqDTO: JoinReq) : JoinRes
     suspend fun joinUpdate(nicknameReqPair: Pair<NicknameReq,String>) : NicknameUpdateRes
     suspend fun nicknameExistCheck(userId : String) : NicknameExistCheckRes
+    suspend fun signOut(passWord : String) : String
 }
